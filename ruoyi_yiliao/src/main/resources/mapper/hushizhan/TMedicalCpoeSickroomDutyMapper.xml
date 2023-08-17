@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.ruoyi_yiliao.mapper.TMedicalCpoeSickroomDutyMapper">
+    
+    <resultMap type="TMedicalCpoeSickroomDuty" id="TMedicalCpoeSickroomDutyResult">
+        <result property="id"    column="id"    />
+        <result property="sickroomId"    column="sickroomId"    />
+        <result property="doctorId"    column="doctorId"    />
+        <result property="murseId"    column="murseId"    />
+    </resultMap>
+
+    <sql id="selectTMedicalCpoeSickroomDutyVo">
+        select id, sickroomId, doctorId, murseId from t_medical_cpoe_sickroom_duty
+    </sql>
+
+    <select id="selectTMedicalCpoeSickroomDutyList" parameterType="TMedicalCpoeSickroomDuty" resultMap="TMedicalCpoeSickroomDutyResult">
+        <include refid="selectTMedicalCpoeSickroomDutyVo"/>
+        <where>  
+            <if test="sickroomId != null  and sickroomId != ''"> and sickroomId = #{sickroomId}</if>
+            <if test="doctorId != null  and doctorId != ''"> and doctorId = #{doctorId}</if>
+            <if test="murseId != null  and murseId != ''"> and murseId = #{murseId}</if>
+        </where>
+    </select>
+    
+    <select id="selectTMedicalCpoeSickroomDutyById" parameterType="String" resultMap="TMedicalCpoeSickroomDutyResult">
+        <include refid="selectTMedicalCpoeSickroomDutyVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertTMedicalCpoeSickroomDuty" parameterType="TMedicalCpoeSickroomDuty">
+        insert into t_medical_cpoe_sickroom_duty
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="sickroomId != null">sickroomId,</if>
+            <if test="doctorId != null">doctorId,</if>
+            <if test="murseId != null">murseId,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="sickroomId != null">#{sickroomId},</if>
+            <if test="doctorId != null">#{doctorId},</if>
+            <if test="murseId != null">#{murseId},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTMedicalCpoeSickroomDuty" parameterType="TMedicalCpoeSickroomDuty">
+        update t_medical_cpoe_sickroom_duty
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="sickroomId != null">sickroomId = #{sickroomId},</if>
+            <if test="doctorId != null">doctorId = #{doctorId},</if>
+            <if test="murseId != null">murseId = #{murseId},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTMedicalCpoeSickroomDutyById" parameterType="String">
+        delete from t_medical_cpoe_sickroom_duty where id = #{id}
+    </delete>
+
+    <delete id="deleteTMedicalCpoeSickroomDutyByIds" parameterType="String">
+        delete from t_medical_cpoe_sickroom_duty where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

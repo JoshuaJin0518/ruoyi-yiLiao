@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.ruoyi_yiliao.mapper.TMedicalCostBillDetailMapper">
+    
+    <resultMap type="TMedicalCostBillDetail" id="TMedicalCostBillDetailResult">
+        <result property="id"    column="id"    />
+        <result property="receiveRecordId"    column="receiveRecordId"    />
+        <result property="partName"    column="partName"    />
+        <result property="partNumber"    column="partNumber"    />
+        <result property="partMoney"    column="partMoney"    />
+    </resultMap>
+
+    <sql id="selectTMedicalCostBillDetailVo">
+        select id, receiveRecordId, partName, partNumber, partMoney from t_medical_cost_bill_detail
+    </sql>
+
+    <select id="selectTMedicalCostBillDetailList" parameterType="TMedicalCostBillDetail" resultMap="TMedicalCostBillDetailResult">
+        <include refid="selectTMedicalCostBillDetailVo"/>
+        <where>  
+            <if test="receiveRecordId != null  and receiveRecordId != ''"> and receiveRecordId = #{receiveRecordId}</if>
+            <if test="partName != null  and partName != ''"> and partName like concat('%', #{partName}, '%')</if>
+            <if test="partNumber != null "> and partNumber = #{partNumber}</if>
+            <if test="partMoney != null "> and partMoney = #{partMoney}</if>
+        </where>
+    </select>
+    
+    <select id="selectTMedicalCostBillDetailById" parameterType="String" resultMap="TMedicalCostBillDetailResult">
+        <include refid="selectTMedicalCostBillDetailVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertTMedicalCostBillDetail" parameterType="TMedicalCostBillDetail">
+        insert into t_medical_cost_bill_detail
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="receiveRecordId != null and receiveRecordId != ''">receiveRecordId,</if>
+            <if test="partName != null and partName != ''">partName,</if>
+            <if test="partNumber != null">partNumber,</if>
+            <if test="partMoney != null">partMoney,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="receiveRecordId != null and receiveRecordId != ''">#{receiveRecordId},</if>
+            <if test="partName != null and partName != ''">#{partName},</if>
+            <if test="partNumber != null">#{partNumber},</if>
+            <if test="partMoney != null">#{partMoney},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTMedicalCostBillDetail" parameterType="TMedicalCostBillDetail">
+        update t_medical_cost_bill_detail
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="receiveRecordId != null and receiveRecordId != ''">receiveRecordId = #{receiveRecordId},</if>
+            <if test="partName != null and partName != ''">partName = #{partName},</if>
+            <if test="partNumber != null">partNumber = #{partNumber},</if>
+            <if test="partMoney != null">partMoney = #{partMoney},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTMedicalCostBillDetailById" parameterType="String">
+        delete from t_medical_cost_bill_detail where id = #{id}
+    </delete>
+
+    <delete id="deleteTMedicalCostBillDetailByIds" parameterType="String">
+        delete from t_medical_cost_bill_detail where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

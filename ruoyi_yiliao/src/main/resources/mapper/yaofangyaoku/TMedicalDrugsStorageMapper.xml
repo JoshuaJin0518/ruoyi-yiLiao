@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.ruoyi_yiliao.mapper.TMedicalDrugsStorageMapper">
+    
+    <resultMap type="TMedicalDrugsStorage" id="TMedicalDrugsStorageResult">
+        <result property="id"    column="id"    />
+        <result property="drugsId"    column="drugsId"    />
+        <result property="no"    column="no"    />
+        <result property="updateTime"    column="updateTime"    />
+        <result property="operator"    column="operator"    />
+    </resultMap>
+
+    <sql id="selectTMedicalDrugsStorageVo">
+        select id, drugsId, no, updateTime, operator from t_medical_drugs_storage
+    </sql>
+
+    <select id="selectTMedicalDrugsStorageList" parameterType="TMedicalDrugsStorage" resultMap="TMedicalDrugsStorageResult">
+        <include refid="selectTMedicalDrugsStorageVo"/>
+        <where>  
+            <if test="drugsId != null  and drugsId != ''"> and drugsId = #{drugsId}</if>
+            <if test="no != null "> and no = #{no}</if>
+            <if test="updateTime != null "> and updateTime = #{updateTime}</if>
+            <if test="operator != null  and operator != ''"> and operator = #{operator}</if>
+        </where>
+    </select>
+    
+    <select id="selectTMedicalDrugsStorageById" parameterType="String" resultMap="TMedicalDrugsStorageResult">
+        <include refid="selectTMedicalDrugsStorageVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertTMedicalDrugsStorage" parameterType="TMedicalDrugsStorage">
+        insert into t_medical_drugs_storage
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="drugsId != null">drugsId,</if>
+            <if test="no != null">no,</if>
+            <if test="updateTime != null">updateTime,</if>
+            <if test="operator != null">operator,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="drugsId != null">#{drugsId},</if>
+            <if test="no != null">#{no},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="operator != null">#{operator},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTMedicalDrugsStorage" parameterType="TMedicalDrugsStorage">
+        update t_medical_drugs_storage
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="drugsId != null">drugsId = #{drugsId},</if>
+            <if test="no != null">no = #{no},</if>
+            <if test="updateTime != null">updateTime = #{updateTime},</if>
+            <if test="operator != null">operator = #{operator},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTMedicalDrugsStorageById" parameterType="String">
+        delete from t_medical_drugs_storage where id = #{id}
+    </delete>
+
+    <delete id="deleteTMedicalDrugsStorageByIds" parameterType="String">
+        delete from t_medical_drugs_storage where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

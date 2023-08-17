@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.ruoyi_yiliao.mapper.TMedicalDrugsInventoryRecordMapper">
+    
+    <resultMap type="TMedicalDrugsInventoryRecord" id="TMedicalDrugsInventoryRecordResult">
+        <result property="id"    column="id"    />
+        <result property="drugsId"    column="drugsId"    />
+        <result property="paperNumber"    column="paperNumber"    />
+        <result property="existNumber"    column="existNumber"    />
+        <result property="buyUnitPrice"    column="buyUnitPrice"    />
+        <result property="sellUnitPrice"    column="sellUnitPrice"    />
+        <result property="inventorySurplusNo"    column="InventorySurplusNo"    />
+        <result property="createTime"    column="createTime"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectTMedicalDrugsInventoryRecordVo">
+        select id, drugsId, paperNumber, existNumber, buyUnitPrice, sellUnitPrice, InventorySurplusNo, createTime, remark from t_medical_drugs_inventory_record
+    </sql>
+
+    <select id="selectTMedicalDrugsInventoryRecordList" parameterType="TMedicalDrugsInventoryRecord" resultMap="TMedicalDrugsInventoryRecordResult">
+        <include refid="selectTMedicalDrugsInventoryRecordVo"/>
+        <where>  
+            <if test="drugsId != null  and drugsId != ''"> and drugsId = #{drugsId}</if>
+            <if test="paperNumber != null "> and paperNumber = #{paperNumber}</if>
+            <if test="existNumber != null "> and existNumber = #{existNumber}</if>
+            <if test="buyUnitPrice != null "> and buyUnitPrice = #{buyUnitPrice}</if>
+            <if test="sellUnitPrice != null "> and sellUnitPrice = #{sellUnitPrice}</if>
+            <if test="inventorySurplusNo != null "> and InventorySurplusNo = #{inventorySurplusNo}</if>
+            <if test="createTime != null "> and createTime = #{createTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectTMedicalDrugsInventoryRecordById" parameterType="String" resultMap="TMedicalDrugsInventoryRecordResult">
+        <include refid="selectTMedicalDrugsInventoryRecordVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertTMedicalDrugsInventoryRecord" parameterType="TMedicalDrugsInventoryRecord">
+        insert into t_medical_drugs_inventory_record
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="drugsId != null and drugsId != ''">drugsId,</if>
+            <if test="paperNumber != null">paperNumber,</if>
+            <if test="existNumber != null">existNumber,</if>
+            <if test="buyUnitPrice != null">buyUnitPrice,</if>
+            <if test="sellUnitPrice != null">sellUnitPrice,</if>
+            <if test="inventorySurplusNo != null">InventorySurplusNo,</if>
+            <if test="createTime != null">createTime,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="drugsId != null and drugsId != ''">#{drugsId},</if>
+            <if test="paperNumber != null">#{paperNumber},</if>
+            <if test="existNumber != null">#{existNumber},</if>
+            <if test="buyUnitPrice != null">#{buyUnitPrice},</if>
+            <if test="sellUnitPrice != null">#{sellUnitPrice},</if>
+            <if test="inventorySurplusNo != null">#{inventorySurplusNo},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTMedicalDrugsInventoryRecord" parameterType="TMedicalDrugsInventoryRecord">
+        update t_medical_drugs_inventory_record
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="drugsId != null and drugsId != ''">drugsId = #{drugsId},</if>
+            <if test="paperNumber != null">paperNumber = #{paperNumber},</if>
+            <if test="existNumber != null">existNumber = #{existNumber},</if>
+            <if test="buyUnitPrice != null">buyUnitPrice = #{buyUnitPrice},</if>
+            <if test="sellUnitPrice != null">sellUnitPrice = #{sellUnitPrice},</if>
+            <if test="inventorySurplusNo != null">InventorySurplusNo = #{inventorySurplusNo},</if>
+            <if test="createTime != null">createTime = #{createTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTMedicalDrugsInventoryRecordById" parameterType="String">
+        delete from t_medical_drugs_inventory_record where id = #{id}
+    </delete>
+
+    <delete id="deleteTMedicalDrugsInventoryRecordByIds" parameterType="String">
+        delete from t_medical_drugs_inventory_record where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

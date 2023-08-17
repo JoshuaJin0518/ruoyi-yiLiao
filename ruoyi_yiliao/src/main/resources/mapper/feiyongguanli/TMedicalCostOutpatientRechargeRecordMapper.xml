@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.ruoyi_yiliao.mapper.TMedicalCostOutpatientRechargeRecordMapper">
+    
+    <resultMap type="TMedicalCostOutpatientRechargeRecord" id="TMedicalCostOutpatientRechargeRecordResult">
+        <result property="id"    column="id"    />
+        <result property="money"    column="money"    />
+        <result property="type"    column="type"    />
+        <result property="createTime"    column="createTime"    />
+        <result property="outpatientId"    column="outpatientId"    />
+    </resultMap>
+
+    <sql id="selectTMedicalCostOutpatientRechargeRecordVo">
+        select id, money, type, createTime, outpatientId from t_medical_cost_outpatient_recharge_record
+    </sql>
+
+    <select id="selectTMedicalCostOutpatientRechargeRecordList" parameterType="TMedicalCostOutpatientRechargeRecord" resultMap="TMedicalCostOutpatientRechargeRecordResult">
+        <include refid="selectTMedicalCostOutpatientRechargeRecordVo"/>
+        <where>  
+            <if test="money != null "> and money = #{money}</if>
+            <if test="type != null "> and type = #{type}</if>
+            <if test="createTime != null "> and createTime = #{createTime}</if>
+            <if test="outpatientId != null  and outpatientId != ''"> and outpatientId = #{outpatientId}</if>
+        </where>
+    </select>
+    
+    <select id="selectTMedicalCostOutpatientRechargeRecordById" parameterType="String" resultMap="TMedicalCostOutpatientRechargeRecordResult">
+        <include refid="selectTMedicalCostOutpatientRechargeRecordVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertTMedicalCostOutpatientRechargeRecord" parameterType="TMedicalCostOutpatientRechargeRecord">
+        insert into t_medical_cost_outpatient_recharge_record
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="money != null">money,</if>
+            <if test="type != null">type,</if>
+            <if test="createTime != null">createTime,</if>
+            <if test="outpatientId != null">outpatientId,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="money != null">#{money},</if>
+            <if test="type != null">#{type},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="outpatientId != null">#{outpatientId},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTMedicalCostOutpatientRechargeRecord" parameterType="TMedicalCostOutpatientRechargeRecord">
+        update t_medical_cost_outpatient_recharge_record
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="money != null">money = #{money},</if>
+            <if test="type != null">type = #{type},</if>
+            <if test="createTime != null">createTime = #{createTime},</if>
+            <if test="outpatientId != null">outpatientId = #{outpatientId},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTMedicalCostOutpatientRechargeRecordById" parameterType="String">
+        delete from t_medical_cost_outpatient_recharge_record where id = #{id}
+    </delete>
+
+    <delete id="deleteTMedicalCostOutpatientRechargeRecordByIds" parameterType="String">
+        delete from t_medical_cost_outpatient_recharge_record where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

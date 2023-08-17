@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.ruoyi_yiliao.mapper.TMedicalCpoeSplitbedMapper">
+    
+    <resultMap type="TMedicalCpoeSplitbed" id="TMedicalCpoeSplitbedResult">
+        <result property="id"    column="id"    />
+        <result property="personId"    column="personId"    />
+        <result property="doctorid"    column="doctorid"    />
+        <result property="bedId"    column="bedId"    />
+        <result property="createTime"    column="createTime"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectTMedicalCpoeSplitbedVo">
+        select id, personId, doctorid, bedId, createTime, remark from t_medical_cpoe_splitbed
+    </sql>
+
+    <select id="selectTMedicalCpoeSplitbedList" parameterType="TMedicalCpoeSplitbed" resultMap="TMedicalCpoeSplitbedResult">
+        <include refid="selectTMedicalCpoeSplitbedVo"/>
+        <where>  
+            <if test="personId != null  and personId != ''"> and personId = #{personId}</if>
+            <if test="doctorid != null  and doctorid != ''"> and doctorid = #{doctorid}</if>
+            <if test="bedId != null  and bedId != ''"> and bedId = #{bedId}</if>
+            <if test="createTime != null  and createTime != ''"> and createTime = #{createTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectTMedicalCpoeSplitbedById" parameterType="String" resultMap="TMedicalCpoeSplitbedResult">
+        <include refid="selectTMedicalCpoeSplitbedVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertTMedicalCpoeSplitbed" parameterType="TMedicalCpoeSplitbed">
+        insert into t_medical_cpoe_splitbed
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="personId != null and personId != ''">personId,</if>
+            <if test="doctorid != null">doctorid,</if>
+            <if test="bedId != null">bedId,</if>
+            <if test="createTime != null">createTime,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="personId != null and personId != ''">#{personId},</if>
+            <if test="doctorid != null">#{doctorid},</if>
+            <if test="bedId != null">#{bedId},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTMedicalCpoeSplitbed" parameterType="TMedicalCpoeSplitbed">
+        update t_medical_cpoe_splitbed
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="personId != null and personId != ''">personId = #{personId},</if>
+            <if test="doctorid != null">doctorid = #{doctorid},</if>
+            <if test="bedId != null">bedId = #{bedId},</if>
+            <if test="createTime != null">createTime = #{createTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTMedicalCpoeSplitbedById" parameterType="String">
+        delete from t_medical_cpoe_splitbed where id = #{id}
+    </delete>
+
+    <delete id="deleteTMedicalCpoeSplitbedByIds" parameterType="String">
+        delete from t_medical_cpoe_splitbed where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

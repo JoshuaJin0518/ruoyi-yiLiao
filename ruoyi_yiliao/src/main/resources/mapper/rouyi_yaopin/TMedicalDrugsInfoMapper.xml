@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.ruoyi_yiliao.mapper.TMedicalDrugsInfoMapper">
+    
+    <resultMap type="TMedicalDrugsInfo" id="TMedicalDrugsInfoResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="specifications"    column="Specifications"    />
+        <result property="unit"    column="unit"    />
+        <result property="description"    column="description"    />
+        <result property="operator"    column="operator"    />
+        <result property="createTime"    column="createTime"    />
+    </resultMap>
+
+    <sql id="selectTMedicalDrugsInfoVo">
+        select id, name, Specifications, unit, description, operator, createTime from t_medical_drugs_info
+    </sql>
+
+    <select id="selectTMedicalDrugsInfoList" parameterType="TMedicalDrugsInfo" resultMap="TMedicalDrugsInfoResult">
+        <include refid="selectTMedicalDrugsInfoVo"/>
+        <where>  
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="specifications != null  and specifications != ''"> and Specifications = #{specifications}</if>
+            <if test="unit != null  and unit != ''"> and unit = #{unit}</if>
+            <if test="description != null  and description != ''"> and description = #{description}</if>
+            <if test="operator != null  and operator != ''"> and operator = #{operator}</if>
+            <if test="createTime != null  and createTime != ''"> and createTime = #{createTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectTMedicalDrugsInfoById" parameterType="String" resultMap="TMedicalDrugsInfoResult">
+        <include refid="selectTMedicalDrugsInfoVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertTMedicalDrugsInfo" parameterType="TMedicalDrugsInfo">
+        insert into t_medical_drugs_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="name != null">name,</if>
+            <if test="specifications != null">Specifications,</if>
+            <if test="unit != null">unit,</if>
+            <if test="description != null">description,</if>
+            <if test="operator != null">operator,</if>
+            <if test="createTime != null">createTime,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="name != null">#{name},</if>
+            <if test="specifications != null">#{specifications},</if>
+            <if test="unit != null">#{unit},</if>
+            <if test="description != null">#{description},</if>
+            <if test="operator != null">#{operator},</if>
+            <if test="createTime != null">#{createTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTMedicalDrugsInfo" parameterType="TMedicalDrugsInfo">
+        update t_medical_drugs_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null">name = #{name},</if>
+            <if test="specifications != null">Specifications = #{specifications},</if>
+            <if test="unit != null">unit = #{unit},</if>
+            <if test="description != null">description = #{description},</if>
+            <if test="operator != null">operator = #{operator},</if>
+            <if test="createTime != null">createTime = #{createTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTMedicalDrugsInfoById" parameterType="String">
+        delete from t_medical_drugs_info where id = #{id}
+    </delete>
+
+    <delete id="deleteTMedicalDrugsInfoByIds" parameterType="String">
+        delete from t_medical_drugs_info where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

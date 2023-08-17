@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.ruoyi_yiliao.mapper.TMedicalOutpatientdoctorResultMapper">
+    
+    <resultMap type="TMedicalOutpatientdoctorResult" id="TMedicalOutpatientdoctorResultResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="description"    column="description"    />
+        <result property="remark"    column="remark"    />
+        <result property="opDoctorReceiveRecordId"    column="opDoctorReceiveRecordId"    />
+    </resultMap>
+
+    <sql id="selectTMedicalOutpatientdoctorResultVo">
+        select id, name, description, remark, opDoctorReceiveRecordId from t_medical_outpatientdoctor_result
+    </sql>
+
+    <select id="selectTMedicalOutpatientdoctorResultList" parameterType="TMedicalOutpatientdoctorResult" resultMap="TMedicalOutpatientdoctorResultResult">
+        <include refid="selectTMedicalOutpatientdoctorResultVo"/>
+        <where>  
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="description != null  and description != ''"> and description = #{description}</if>
+            <if test="opDoctorReceiveRecordId != null  and opDoctorReceiveRecordId != ''"> and opDoctorReceiveRecordId = #{opDoctorReceiveRecordId}</if>
+        </where>
+    </select>
+    
+    <select id="selectTMedicalOutpatientdoctorResultById" parameterType="String" resultMap="TMedicalOutpatientdoctorResultResult">
+        <include refid="selectTMedicalOutpatientdoctorResultVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertTMedicalOutpatientdoctorResult" parameterType="TMedicalOutpatientdoctorResult">
+        insert into t_medical_outpatientdoctor_result
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="name != null">name,</if>
+            <if test="description != null">description,</if>
+            <if test="remark != null">remark,</if>
+            <if test="opDoctorReceiveRecordId != null">opDoctorReceiveRecordId,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="name != null">#{name},</if>
+            <if test="description != null">#{description},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="opDoctorReceiveRecordId != null">#{opDoctorReceiveRecordId},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTMedicalOutpatientdoctorResult" parameterType="TMedicalOutpatientdoctorResult">
+        update t_medical_outpatientdoctor_result
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null">name = #{name},</if>
+            <if test="description != null">description = #{description},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="opDoctorReceiveRecordId != null">opDoctorReceiveRecordId = #{opDoctorReceiveRecordId},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTMedicalOutpatientdoctorResultById" parameterType="String">
+        delete from t_medical_outpatientdoctor_result where id = #{id}
+    </delete>
+
+    <delete id="deleteTMedicalOutpatientdoctorResultByIds" parameterType="String">
+        delete from t_medical_outpatientdoctor_result where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

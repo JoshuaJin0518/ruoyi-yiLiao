@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.ruoyi_yiliao.mapper.TMedicalCostPersonArchivesMapper">
+    
+    <resultMap type="TMedicalCostPersonArchives" id="TMedicalCostPersonArchivesResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="age"    column="age"    />
+        <result property="code"    column="code"    />
+        <result property="sex"    column="sex"    />
+        <result property="operator"    column="operator"    />
+        <result property="createTime"    column="createTime"    />
+    </resultMap>
+
+    <sql id="selectTMedicalCostPersonArchivesVo">
+        select id, name, age, code, sex, operator, createTime from t_medical_cost_person_archives
+    </sql>
+
+    <select id="selectTMedicalCostPersonArchivesList" parameterType="TMedicalCostPersonArchives" resultMap="TMedicalCostPersonArchivesResult">
+        <include refid="selectTMedicalCostPersonArchivesVo"/>
+        <where>  
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="age != null "> and age = #{age}</if>
+            <if test="code != null  and code != ''"> and code = #{code}</if>
+            <if test="sex != null "> and sex = #{sex}</if>
+            <if test="operator != null  and operator != ''"> and operator = #{operator}</if>
+            <if test="createTime != null  and createTime != ''"> and createTime = #{createTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectTMedicalCostPersonArchivesById" parameterType="String" resultMap="TMedicalCostPersonArchivesResult">
+        <include refid="selectTMedicalCostPersonArchivesVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertTMedicalCostPersonArchives" parameterType="TMedicalCostPersonArchives">
+        insert into t_medical_cost_person_archives
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="name != null and name != ''">name,</if>
+            <if test="age != null">age,</if>
+            <if test="code != null">code,</if>
+            <if test="sex != null">sex,</if>
+            <if test="operator != null and operator != ''">operator,</if>
+            <if test="createTime != null and createTime != ''">createTime,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="name != null and name != ''">#{name},</if>
+            <if test="age != null">#{age},</if>
+            <if test="code != null">#{code},</if>
+            <if test="sex != null">#{sex},</if>
+            <if test="operator != null and operator != ''">#{operator},</if>
+            <if test="createTime != null and createTime != ''">#{createTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTMedicalCostPersonArchives" parameterType="TMedicalCostPersonArchives">
+        update t_medical_cost_person_archives
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null and name != ''">name = #{name},</if>
+            <if test="age != null">age = #{age},</if>
+            <if test="code != null">code = #{code},</if>
+            <if test="sex != null">sex = #{sex},</if>
+            <if test="operator != null and operator != ''">operator = #{operator},</if>
+            <if test="createTime != null and createTime != ''">createTime = #{createTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTMedicalCostPersonArchivesById" parameterType="String">
+        delete from t_medical_cost_person_archives where id = #{id}
+    </delete>
+
+    <delete id="deleteTMedicalCostPersonArchivesByIds" parameterType="String">
+        delete from t_medical_cost_person_archives where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

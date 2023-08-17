@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.ruoyi_yiliao.mapper.DoctorIdMapper">
+
+    <select id="sel" resultType="com.ruoyi.ruoyi_yiliao.domain.Doctors">
+        SELECT  u.`nick_name`  uName ,u.`user_id` doctorId FROM `sys_user` u  INNER JOIN
+         `sys_user_role`  ur  ON  u.`user_id` = ur.`user_id` INNER JOIN
+            `sys_role` r ON r.`role_id` = ur.`role_id`
+        WHERE r.`role_id` =4
+    </select>
+</mapper>

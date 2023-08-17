@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.ruoyi_yiliao.mapper.TMedicalCpoeSickroomMapper">
+    
+    <resultMap type="TMedicalCpoeSickroom" id="TMedicalCpoeSickroomResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="specification"    column="specification"    />
+        <result property="attribute"    column="attribute"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectTMedicalCpoeSickroomVo">
+        select id, name, specification, attribute, remark from t_medical_cpoe_sickroom
+    </sql>
+
+    <select id="selectTMedicalCpoeSickroomList" parameterType="TMedicalCpoeSickroom" resultMap="TMedicalCpoeSickroomResult">
+        <include refid="selectTMedicalCpoeSickroomVo"/>
+        <where>  
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="specification != null  and specification != ''"> and specification = #{specification}</if>
+            <if test="attribute != null  and attribute != ''"> and attribute = #{attribute}</if>
+        </where>
+    </select>
+    
+    <select id="selectTMedicalCpoeSickroomById" parameterType="String" resultMap="TMedicalCpoeSickroomResult">
+        <include refid="selectTMedicalCpoeSickroomVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertTMedicalCpoeSickroom" parameterType="TMedicalCpoeSickroom">
+        insert into t_medical_cpoe_sickroom
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="name != null">name,</if>
+            <if test="specification != null">specification,</if>
+            <if test="attribute != null">attribute,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="name != null">#{name},</if>
+            <if test="specification != null">#{specification},</if>
+            <if test="attribute != null">#{attribute},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTMedicalCpoeSickroom" parameterType="TMedicalCpoeSickroom">
+        update t_medical_cpoe_sickroom
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null">name = #{name},</if>
+            <if test="specification != null">specification = #{specification},</if>
+            <if test="attribute != null">attribute = #{attribute},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTMedicalCpoeSickroomById" parameterType="String">
+        delete from t_medical_cpoe_sickroom where id = #{id}
+    </delete>
+
+    <delete id="deleteTMedicalCpoeSickroomByIds" parameterType="String">
+        delete from t_medical_cpoe_sickroom where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

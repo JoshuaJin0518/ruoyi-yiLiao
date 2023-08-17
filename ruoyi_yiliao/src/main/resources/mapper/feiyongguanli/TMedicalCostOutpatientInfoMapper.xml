@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.ruoyi_yiliao.mapper.TMedicalCostOutpatientInfoMapper">
+    
+    <resultMap type="TMedicalCostOutpatientInfo" id="TMedicalCostOutpatientInfoResult">
+        <result property="id"    column="id"    />
+        <result property="money"    column="money"    />
+        <result property="enableTime"    column="enableTime"    />
+        <result property="lossTime"    column="lossTime"    />
+        <result property="deadTime"    column="deadTime"    />
+        <result property="returnTime"    column="returnTime"    />
+        <result property="status"    column="status"    />
+        <result property="deposit"    column="deposit"    />
+        <result property="personId"    column="personId"    />
+    </resultMap>
+
+    <sql id="selectTMedicalCostOutpatientInfoVo">
+        select id, money, enableTime, lossTime, deadTime, returnTime, status, deposit, personId from t_medical_cost_outpatient_info
+    </sql>
+
+    <select id="selectTMedicalCostOutpatientInfoList" parameterType="TMedicalCostOutpatientInfo" resultMap="TMedicalCostOutpatientInfoResult">
+        <include refid="selectTMedicalCostOutpatientInfoVo"/>
+        <where>  
+            <if test="money != null "> and money = #{money}</if>
+            <if test="enableTime != null "> and enableTime = #{enableTime}</if>
+            <if test="lossTime != null "> and lossTime = #{lossTime}</if>
+            <if test="deadTime != null "> and deadTime = #{deadTime}</if>
+            <if test="returnTime != null "> and returnTime = #{returnTime}</if>
+            <if test="status != null "> and status = #{status}</if>
+            <if test="deposit != null "> and deposit = #{deposit}</if>
+            <if test="personId != null  and personId != ''"> and personId = #{personId}</if>
+        </where>
+    </select>
+    
+    <select id="selectTMedicalCostOutpatientInfoById" parameterType="String" resultMap="TMedicalCostOutpatientInfoResult">
+        <include refid="selectTMedicalCostOutpatientInfoVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertTMedicalCostOutpatientInfo" parameterType="TMedicalCostOutpatientInfo">
+        insert into t_medical_cost_outpatient_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="money != null">money,</if>
+            <if test="enableTime != null">enableTime,</if>
+            <if test="lossTime != null">lossTime,</if>
+            <if test="deadTime != null">deadTime,</if>
+            <if test="returnTime != null">returnTime,</if>
+            <if test="status != null">status,</if>
+            <if test="deposit != null">deposit,</if>
+            <if test="personId != null">personId,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="money != null">#{money},</if>
+            <if test="enableTime != null">#{enableTime},</if>
+            <if test="lossTime != null">#{lossTime},</if>
+            <if test="deadTime != null">#{deadTime},</if>
+            <if test="returnTime != null">#{returnTime},</if>
+            <if test="status != null">#{status},</if>
+            <if test="deposit != null">#{deposit},</if>
+            <if test="personId != null">#{personId},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTMedicalCostOutpatientInfo" parameterType="TMedicalCostOutpatientInfo">
+        update t_medical_cost_outpatient_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="money != null">money = #{money},</if>
+            <if test="enableTime != null">enableTime = #{enableTime},</if>
+            <if test="lossTime != null">lossTime = #{lossTime},</if>
+            <if test="deadTime != null">deadTime = #{deadTime},</if>
+            <if test="returnTime != null">returnTime = #{returnTime},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="deposit != null">deposit = #{deposit},</if>
+            <if test="personId != null">personId = #{personId},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTMedicalCostOutpatientInfoById" parameterType="String">
+        delete from t_medical_cost_outpatient_info where id = #{id}
+    </delete>
+
+    <delete id="deleteTMedicalCostOutpatientInfoByIds" parameterType="String">
+        delete from t_medical_cost_outpatient_info where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

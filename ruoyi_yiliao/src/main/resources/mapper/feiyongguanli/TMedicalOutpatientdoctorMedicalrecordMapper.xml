@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.ruoyi_yiliao.mapper.TMedicalOutpatientdoctorMedicalrecordMapper">
+    
+    <resultMap type="TMedicalOutpatientdoctorMedicalrecord" id="TMedicalOutpatientdoctorMedicalrecordResult">
+        <result property="id"    column="id"    />
+        <result property="outpatientId"    column="outpatientId"    />
+        <result property="medicalRecordURL"    column="medicalRecordURL"    />
+    </resultMap>
+
+    <sql id="selectTMedicalOutpatientdoctorMedicalrecordVo">
+        select id, outpatientId, medicalRecordURL from t_medical_outpatientdoctor_medicalrecord
+    </sql>
+
+    <select id="selectTMedicalOutpatientdoctorMedicalrecordList" parameterType="TMedicalOutpatientdoctorMedicalrecord" resultMap="TMedicalOutpatientdoctorMedicalrecordResult">
+        <include refid="selectTMedicalOutpatientdoctorMedicalrecordVo"/>
+        <where>  
+            <if test="outpatientId != null  and outpatientId != ''"> and outpatientId = #{outpatientId}</if>
+            <if test="medicalRecordURL != null  and medicalRecordURL != ''"> and medicalRecordURL = #{medicalRecordURL}</if>
+        </where>
+    </select>
+    
+    <select id="selectTMedicalOutpatientdoctorMedicalrecordById" parameterType="String" resultMap="TMedicalOutpatientdoctorMedicalrecordResult">
+        <include refid="selectTMedicalOutpatientdoctorMedicalrecordVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertTMedicalOutpatientdoctorMedicalrecord" parameterType="TMedicalOutpatientdoctorMedicalrecord">
+        insert into t_medical_outpatientdoctor_medicalrecord
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="outpatientId != null">outpatientId,</if>
+            <if test="medicalRecordURL != null">medicalRecordURL,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="outpatientId != null">#{outpatientId},</if>
+            <if test="medicalRecordURL != null">#{medicalRecordURL},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTMedicalOutpatientdoctorMedicalrecord" parameterType="TMedicalOutpatientdoctorMedicalrecord">
+        update t_medical_outpatientdoctor_medicalrecord
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="outpatientId != null">outpatientId = #{outpatientId},</if>
+            <if test="medicalRecordURL != null">medicalRecordURL = #{medicalRecordURL},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTMedicalOutpatientdoctorMedicalrecordById" parameterType="String">
+        delete from t_medical_outpatientdoctor_medicalrecord where id = #{id}
+    </delete>
+
+    <delete id="deleteTMedicalOutpatientdoctorMedicalrecordByIds" parameterType="String">
+        delete from t_medical_outpatientdoctor_medicalrecord where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
