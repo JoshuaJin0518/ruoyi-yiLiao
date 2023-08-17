@@ -134,9 +134,9 @@
           </el-select>
         </el-form-item>
         <el-form-item label="事项数量" prop="partNumber">
-          <el-input v-model="form.partNumber" placeholder="请输入事项数量"/>
+          <el-input v-model="form.partNumber" placeholder="请输入事项数量" @change="money(form.partNumber)"/>
         </el-form-item>
-        <el-form-item label="单价" prop="partMoney">
+        <el-form-item label="价格" prop="partMoney">
           <el-input v-model="form.partMoney" placeholder="请输入事项数量"/>
         </el-form-item>
         <el-form-item label="医生治疗结果id" prop="opDoctorResultId">
@@ -187,7 +187,7 @@ export default {
       //药品
       partNames: [],
       //价格
-      pr:"",
+      pr: "",
       // 查询参数
       queryParams: {
         pageNum: 1,
@@ -319,11 +319,21 @@ export default {
       })
     },
     test123(value) {
-     //进行药品价格的查询
-      getDrugById(value).then(response=>{
-       // this.form.partMoney = response.data[0].buyUnitPrice;
-       this.$set(this.form,"partMoney",response.data[0].buyUnitPrice);
+      //进行药品价格的查询
+      getDrugById(value).then(response => {
+        this.pr = response.data[0].buyUnitPrice;
+        this.$set(this.form, "partMoney", response.data[0].buyUnitPrice);
       })
+    },
+    //生成金额
+    money(mun) {
+      if (parseInt(mun) == 0) {
+        console.log(this.pr)
+        this.$set(this.form, "partMoney", this.pr);
+      } else {
+        console.log(this.pr)
+        this.$set(this.form, "partMoney", parseInt(mun) *  this.pr);
+      }
     }
   }
 };
